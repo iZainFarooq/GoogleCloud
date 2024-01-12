@@ -28,6 +28,24 @@ gsutil cp gs://cloud-training/gsp323/lab.schema .
 gcloud dataflow jobs run Cloudhustler --gcs-location gs://dataflow-templates-$REGION/latest/GCS_Text_to_BigQuery --region $REGION --worker-machine-type e2-standard-2 --staging-location gs://$DEVSHELL_PROJECT_ID-marking/temp --parameters javascriptTextTransformGcsPath=gs://cloud-training/gsp323/lab.js,JSONPath=gs://cloud-training/gsp323/lab.schema,javascriptTextTransformFunctionName=transform,outputTable=$BigQuery_output_table,inputFilePattern=gs://cloud-training/gsp323/lab.csv,bigQueryLoadingTemporaryDirectory=gs://$DEVSHELL_PROJECT_ID-marking/bigquery_temp
 gcloud dataproc clusters create cluster-b53a --region $REGION --master-machine-type e2-standard-2 --master-boot-disk-size 500 --num-workers 2 --worker-machine-type e2-standard-2 --worker-boot-disk-size 500 --image-version 2.1-debian11 --project $DEVSHELL_PROJECT_ID
 ```
+### Search ```Dataproc``` ---> Clusters-----> Click on the ```cluster-b53a```
+>Vm Instance -----> click ssh ----> Run the following Cmd in SSH SHell
+```cmd
+hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt
+```
+### From the left panel Click jobs ----> Click Submit a job
+>Region ```From LAB resources``` ------->For Cluster ```cluster-b53a``` > Select Job Job type ```spark```
+
+>Main class or jar ```Copy From Task 2 Table``` 
+
+>Jar files ```Copy From Task 2 Table```
+
+>Arguments ```Copy From Task 2 Table```
+
+>Max restarts per hour ```Copy From Task 2 Table```
+
+> SUBMIT
+
 ### API & Credentials ---> Create Credentials -----> API KEY -------> then Copy it
 >```Paste the copied API```
 ```cmd
@@ -41,6 +59,7 @@ Bucket_TASK_3=
 ```cmd
 Bucket_TASK_4=
 ```
+---> After running the below cmd they asked to ```Enter authorization code``` in the shell click on the link which shows in the shell then login then Aloww then copy the lower key and paste it in the shell
 ```cmd
 gcloud iam service-accounts create cloushustler \
   --display-name "my natural language service account"
@@ -89,20 +108,21 @@ curl -s -H 'Content-Type: application/json' \
     -d @request.json
 curl -s -H 'Content-Type: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" 'https://videointelligence.googleapis.com/v1/operations/OPERATION_FROM_PREVIOUS_REQUEST' > result1.json
 ```
-### Search ```Dataproc``` ---> Clusters-----> Click on the ```cluster-b53a```
->Vm Instance -----> click ssh ----> Run the following Cmd in SSH SHell
+
+### Note
+Follow all the steps, if task 3 is not working then use these alternatives
+## 1st Solution
+
+>----> Go to Cloud Storage----> Buckets--->Select the Bucket which name ends with ```marking``` ----> Open that Bucket---> 3 to 4 results are shown
+
+>-----> Select that result which is on the name of your result which is in Task 3 and delete it.
+
+>---> Then go to Permissions-----> Scroll Down---> Click Grant Access---->New tab open---> in principle Section---> Type--->```allusers```
+
+>-----> In the role Section Select--->```Storage Legacy Bucket Owner```---then Save
+
+After that run the following command in the cloud shell
 ```cmd
-hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt
+gsutil cp transcription_result.json <Paste .result URL from trask 3>
 ```
-### From the left panel Click jobs ----> Click Submit a job
->Region ```From LAB resources``` ------->For Cluster ```cluster-b53a``` > Select Job Job type ```spark```
-
->Main class or jar ```Copy From Task 2 Table``` 
-
->Jar files ```Copy From Task 2 Table```
-
->Arguments ```Copy From Task 2 Table```
-
->Max restarts per hour ```Copy From Task 2 Table```
-
-> SUBMIT
+Then check Task 3 is completed or not.
