@@ -1,9 +1,11 @@
-# GSP323 
-## Run in cloudshell
+# GSP323 Challenge Lab
+//Run these commands in the Cloudshell
+
+>```Region``` from cloud resources on the Left side 
 ```cmd
 REGION=
 ```
-```BigQuery output table``` from Task 1 Table 
+>```BigQuery output table``` from Task 1 named ```BigQuery output table``` 
 ```cmd
 BigQuery_output_table=
 ```
@@ -26,14 +28,16 @@ gsutil cp gs://cloud-training/gsp323/lab.schema .
 gcloud dataflow jobs run Cloudhustler --gcs-location gs://dataflow-templates-$REGION/latest/GCS_Text_to_BigQuery --region $REGION --worker-machine-type e2-standard-2 --staging-location gs://$DEVSHELL_PROJECT_ID-marking/temp --parameters javascriptTextTransformGcsPath=gs://cloud-training/gsp323/lab.js,JSONPath=gs://cloud-training/gsp323/lab.schema,javascriptTextTransformFunctionName=transform,outputTable=$BigQuery_output_table,inputFilePattern=gs://cloud-training/gsp323/lab.csv,bigQueryLoadingTemporaryDirectory=gs://$DEVSHELL_PROJECT_ID-marking/bigquery_temp
 gcloud dataproc clusters create cluster-b53a --region $REGION --master-machine-type e2-standard-2 --master-boot-disk-size 500 --num-workers 2 --worker-machine-type e2-standard-2 --worker-boot-disk-size 500 --image-version 2.1-debian11 --project $DEVSHELL_PROJECT_ID
 ```
-### API & Credintials > Create Credintials > API KEY > Copy it
-## RUN IN ANOTHER SHELL 
+### API & Credentials ---> Create Credentials -----> API KEY -------> then Copy it
+>```Paste the copied API```
 ```cmd
 API_KEY=
 ```
+>```Copy the .Result file from task 3```
 ```cmd
 Bucket_TASK_3=
 ```
+>```Copy the .Result file from task 4```
 ```cmd
 Bucket_TASK_4=
 ```
@@ -46,6 +50,10 @@ cloud="/home/$USER/key.json"
 gcloud auth activate-service-account cloushustler@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com --key-file=$cloud
 gcloud ml language analyze-entities --content="Old Norse texts portray Odin as one-eyed and long-bearded, frequently wielding a spear named Gungnir and wearing a cloak and a broad hat." > result.json
 gcloud auth login --no-launch-browser
+```
+>```Copy .Flac and .result file from task 3 and paste it in the below link```
+```cmd
+gcloud ml speech recognize-long-running <. flac file link> --language-code=en-US --encoding=FLAC --output-uri=<.result link>
 ```
 ```cmd
 gsutil cp result.json $Bucket_TASK_4
@@ -81,17 +89,20 @@ curl -s -H 'Content-Type: application/json' \
     -d @request.json
 curl -s -H 'Content-Type: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" 'https://videointelligence.googleapis.com/v1/operations/OPERATION_FROM_PREVIOUS_REQUEST' > result1.json
 ```
-### Search ```Dataproc``` > Click on cluster-b53a
->Vm Instance > ssh > ```hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt```
-### From left pannel select jobs > Submit job
->Region ```From LAB``` > Cluster ```cluster-b53a``` > Job type ```spark```
+### Search ```Dataproc``` ---> Clusters-----> Click on the ```cluster-b53a```
+>Vm Instance -----> click ssh ----> Run the following Cmd in SSH SHell
+```cmd
+hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt
+```
+### From the left panel Click jobs ----> Click Submit a job
+>Region ```From LAB resources``` ------->For Cluster ```cluster-b53a``` > Select Job Job type ```spark```
 
->Main class or jar ```org.apache.spark.examples.SparkPageRank``` 
+>Main class or jar ```Copy From Task 2 Table``` 
 
->Jar files ```file:///usr/lib/spark/examples/jars/spark-examples.jar```
+>Jar files ```Copy From Task 2 Table```
 
->Arguments ```/data.txt```
+>Arguments ```Copy From Task 2 Table```
 
->Max restarts per hour ```1```
+>Max restarts per hour ```Copy From Task 2 Table```
 
 > SUBMIT
